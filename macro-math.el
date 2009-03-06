@@ -41,6 +41,7 @@
 ;;
 ;;; Change Log ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
+;;    `macro-math-eval-region' accepts a numeric prefix now.
 ;;    Changed back-end to `calc-eval'.
 ;;
 ;; 2007-04-10 (0.9)
@@ -62,10 +63,14 @@
 ;;;###autoload
 (defun macro-math-eval-region (beg end &optional copy-to-kill-ring digits)
   "Evaluate the marked mathematical expression and replace it with the result.
-With prefix arg COPY-TO-KILL-RING, don't replace the region, but save the result
-to the kill-ring.
-When digits is non-nil, it determines the number of decimal digits to round to."
-  (interactive "r\nP")
+With arg COPY-TO-KILL-RING or prefix arg, don't replace the region, but
+save the result to the kill-ring.  When DIGITS is non-nil, or a numeric
+prefix arg is given, it determines the number of decimal digits to round
+to."
+  (interactive (list (region-beginning)
+                     (region-end)
+                     (consp current-prefix-arg)
+                     (when (numberp current-prefix-arg) current-prefix-arg)))
   (let* ((calc-multiplication-has-precedence nil)
          (result (macro-math-eval (buffer-substring-no-properties beg end)))
          (rounded (if digits
