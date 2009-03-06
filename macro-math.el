@@ -41,6 +41,7 @@
 ;;
 ;;; Change Log ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
+;;    Symbols names (like pi or e) can now be evaluated.
 ;;    `macro-math-eval-region' accepts a numeric prefix now.
 ;;    Changed back-end to `calc-eval'.
 ;;
@@ -50,6 +51,8 @@
 ;;; Code:
 
 (eval-when-compile (require 'cl))
+
+(add-to-list 'debug-ignored-errors "^Unknown value '.*'$")
 
 (defgroup macro-math nil
   "In-buffer mathematical operations"
@@ -92,7 +95,20 @@ If DIGITS is nil, `macro-math-rounding-precision' will be used."
 
 ;;; Internal ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defsubst macro-math-symbol-value (symbol)
+  (let* ((symbol (intern symbol))
+         (value (when (boundp symbol)
+                  (symbol-value symbol))))
+    ;; Add parentheses, so two numbers aren't accidentally concatenated.
+    (if (numberp value)
+        (concat "(" (number-to-string value) ")")
+      (error "Unknown value '%s'" symbol))))
+
 (defun macro-math-eval (expression)
+  ;; Replace variables with their values.
+  (setq expression
+        (replace-regexp-in-string "\\<\\([-a-zA-Z]+\\)\\>"
+                                  'macro-math-symbol-value expression))
   (string-to-number (calc-eval expression)))
 
 (defun macro-math-round (number digits)
