@@ -79,9 +79,10 @@ to."
          (rounded (if digits
                       (macro-math-round result digits)
                     (number-to-string result))))
-    (if copy-to-kill-ring
+    (if (or buffer-read-only copy-to-kill-ring)
         (progn (deactivate-mark)
-               (kill-new rounded))
+               (kill-new rounded)
+               (message "Saved %s in kill-ring" rounded))
       (delete-region beg end)
       (insert rounded))))
 
