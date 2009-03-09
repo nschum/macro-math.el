@@ -34,6 +34,11 @@
 ;; At any time, especially during macros, add an expression to the buffer and
 ;; mark it.  Then call `macro-math-eval-region' to get the result.
 ;;
+;; A few example expressions:
+;; 5 + 3
+;; (2 + 3) * 5
+;; 1/2 * pi
+;;
 ;; For example, use it to increase all numbers in a buffer by one.
 ;; Call `kmacro-start-macro', move the point behind the next number, type "+ 1",
 ;; mark the number and + 1, call `macro-math-eval-region'.  Finish the macro
