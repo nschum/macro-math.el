@@ -1,9 +1,9 @@
 ;;; macro-math.el --- in-buffer mathematical operations
 ;;
-;; Copyright (C) 2007 Nikolaj Schumacher
+;; Copyright (C) 2007, 2009 Nikolaj Schumacher
 ;;
 ;; Author: Nikolaj Schumacher <bugs * nschum de>
-;; Version: 0.9
+;; Version: 1.0
 ;; Keywords: convenience
 ;; URL: http://nschum.de/src/emacs/macro-math/
 ;; Compatibility: GNU Emacs 21.x, GNU Emacs 22.x, GNU Emacs 23.x
@@ -46,6 +46,7 @@
 ;;
 ;;; Change Log ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
+;; 2009-03-09 (1.0)
 ;;    Symbols names (like pi or e) can now be evaluated.
 ;;    `macro-math-eval-region' accepts a numeric prefix now.
 ;;    Changed back-end to `calc-eval'.
@@ -54,8 +55,6 @@
 ;;    Initial release.
 ;;
 ;;; Code:
-
-(eval-when-compile (require 'cl))
 
 (add-to-list 'debug-ignored-errors "^Unknown value '.*'$")
 
