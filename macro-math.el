@@ -124,3 +124,4 @@ If DIGITS is nil, `macro-math-rounding-precision' will be used."
      (format "%%.%df" digits) number)))
 
 (provide 'macro-math)
+;;; macro-math.el ends here
